@@ -1,5 +1,6 @@
 package br.dev.laris.airports.controllers;
 
+import br.dev.laris.airports.DTO.AirportMinDTO;
 import br.dev.laris.airports.entities.Airport;
 import br.dev.laris.airports.services.AirportService;
 import java.util.List;
@@ -27,8 +28,8 @@ public class AirportController {
 
     @GetMapping("/city/{cityName}")
     public ResponseEntity<List<Airport>> findByCityIgnoreCase(@PathVariable String cityName) {
+       
         List<Airport> result = airportService.findByCity(cityName);
-        
         if (result.isEmpty()) {
             //Ops lista vazia 
             //notFound devolve 404
@@ -39,7 +40,23 @@ public class AirportController {
             //ok devolve 200
             return ResponseEntity.ok(result);
             
-         }
-        
+         }        
+    }
+    
+    @GetMapping("/country/{countryName}")
+    public ResponseEntity<List<AirportMinDTO>> findByCountryIgnoreCase(@PathVariable String countryName) {
+       
+        List<AirportMinDTO> result = airportService.findByCountry(countryName);
+        if (result.isEmpty()) {
+            //Ops lista vazia 
+            //notFound devolve 404
+          return ResponseEntity.notFound().build();
+            
+        } else {
+            //eba tem dados 
+            //ok devolve 200
+            return ResponseEntity.ok(result);
+            
+         }        
     }
 }
